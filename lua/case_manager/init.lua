@@ -4,6 +4,14 @@ local to_snake = function(word, current_format)
     if current_format == 'snake' then
         return word
     end
+    if current_format == 'camel' then
+        local formatted_word = string.gsub(word, '(%u)', '_%1' )
+        vim.cmd('normal! diwi' .. string.lower(formatted_word))
+    end
+    if current_format == 'kebab' then
+        local formatted_word = string.gsub(word, '%-', '_')
+        vim.cmd('normal! diWi' .. string.lower(formatted_word))
+    end
 end
 
 local to_camel = function(word, current_format)
@@ -28,8 +36,19 @@ local get_current_format = function(word)
     return 'camel'
 end
 
+local expand_choice = function(choice)
+    local opts = {
+        s = 'snake',
+        c = 'camel',
+        k = 'kebab',
+    }
+
+    return opts[choice]
+end
+
 M.convert = function(choice, word)
     local current_format = get_current_format(word)
+    local expanded_choice = expand_choice(choice)
     local case = {
         snake = to_snake,
         camel = to_camel,
@@ -37,8 +56,8 @@ M.convert = function(choice, word)
         default = print, -- probably need to handle this better
     }
 
-    if (case[choice]) then
-        case[choice](word, current_format)
+    if (case[expanded_choice]) then
+        case[expanded_choice](word, current_format)
     else
         case['default']('Your choice was invalid.')
     end
