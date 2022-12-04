@@ -1,7 +1,9 @@
-local manager = require('case_manager')
+Manager = require('case_manager')
 
-local prompt = vim.ui.input({prompt = 'Enter new case ([s]nake, [c]amel, [p]ascal, [k]ebab): '}, function(input)
-    print(input)
-end)
+Prompt = function(word)
+    return vim.ui.input({prompt = 'Enter new case ([s]nake, [c]amel, [p]ascal, [k]ebab): '}, function(choice)
+        Manager.convert(choice, word)
+    end)
+end
 
--- vim command to run the case manager command and call prompt, which then calls methods on manager
+vim.cmd([[ command! CaseManager :lua Prompt(vim.call('expand', '<cword>')) ]])
