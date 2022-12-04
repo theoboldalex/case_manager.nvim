@@ -1,16 +1,17 @@
 local M = {}
 
 local to_snake = function(word, current_format)
+    -- let's find a better pattern to convert them than this :D
     if current_format == 'snake' then
         return word
     end
     if current_format == 'camel' then
         local formatted_word = string.gsub(word, '(%u)', '_%1' )
-        vim.cmd('normal! diwi' .. string.lower(formatted_word))
+        vim.cmd('normal! ciw' .. string.lower(formatted_word))
     end
     if current_format == 'kebab' then
         local formatted_word = string.gsub(word, '%-', '_')
-        vim.cmd('normal! diWi' .. string.lower(formatted_word))
+        vim.cmd('normal! ciW' .. string.lower(formatted_word))
     end
 end
 
@@ -18,13 +19,36 @@ local to_camel = function(word, current_format)
     if current_format == 'camel' then
         return word
     end
+    if current_format == 'kebab' then
+        local formatted_word = string.gsub(word, '%-[a-z]', function(char)
+            return string.upper(char)
+        end)
+        formatted_word = string.gsub(formatted_word, '%-', '')
+        vim.cmd('normal! ciW' .. formatted_word)
+    end
+    if current_format == 'snake' then
+        local formatted_word = string.gsub(word, '_[a-z]', function(char)
+            return string.upper(char)
+        end)
+        formatted_word = string.gsub(formatted_word, '_', '')
+        vim.cmd('normal! ciW' .. formatted_word)
+    end
 end
 
 local to_kebab = function(word, current_format)
     if current_format == 'kebab' then
         return word
     end
+    if current_format == 'camel' then
+        local formatted_word = string.gsub(word, '(%u)', '-%1')
+        vim.cmd('normal! ciw' .. string.lower(formatted_word))
+    end
+    if current_format == 'snake' then
+        local formatted_word = string.gsub(word, '_', '-')
+        vim.cmd('normal! ciW' .. formatted_word)
+    end
 end
+to_kebab('hello_world_hello_world', 'snake')
 
 local get_current_format = function(word)
     if (string.find(word, '-', 1, true)) then
