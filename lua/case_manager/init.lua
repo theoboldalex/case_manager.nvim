@@ -48,7 +48,6 @@ local to_kebab = function(word, current_format)
         vim.cmd('normal! ciW' .. formatted_word)
     end
 end
-to_kebab('hello_world_hello_world', 'snake')
 
 local get_current_format = function(word)
     if (string.find(word, '-', 1, true)) then
