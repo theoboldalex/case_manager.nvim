@@ -1,16 +1,24 @@
 local M = {}
 
-M.to_snake = function(current_format)
+local to_snake = function(word, current_format)
+    if current_format == 'snake' then
+        return word
+    end
 end
 
-M.to_camel = function(current_format)
+local to_camel = function(word, current_format)
+    if current_format == 'camel' then
+        return word
+    end
 end
 
-M.to_kebab = function(current_format)
+local to_kebab = function(word, current_format)
+    if current_format == 'kebab' then
+        return word
+    end
 end
 
-M.get_current_format = function(word)
-    print(word)
+local get_current_format = function(word)
     if (string.find(word, '-', 1, true)) then
         return 'kebab'
     end
@@ -21,26 +29,18 @@ M.get_current_format = function(word)
 end
 
 M.convert = function(choice, word)
-    local current_format = M.get_current_format(word)
+    local current_format = get_current_format(word)
     local case = {
-        snake = function()
-            M.to_snake(current_format)
-        end,
-        camel = function()
-            M.to_camel(current_format)
-        end,
-        kebab = function()
-            M.to_kebab(current_format)
-        end,
-        default = function()
-            print('Your choice was invalid.') -- probably need to handle this better
-        end,
+        snake = to_snake,
+        camel = to_camel,
+        kebab = to_kebab,
+        default = print, -- probably need to handle this better
     }
 
     if (case[choice]) then
-        case[choice]()
+        case[choice](word, current_format)
     else
-        case['default']()
+        case['default']('Your choice was invalid.')
     end
 end
 
