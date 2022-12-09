@@ -59,28 +59,18 @@ local get_current_format = function(word)
     return 'camel'
 end
 
-local expand_choice = function(choice)
-    local opts = {
-        s = 'snake',
-        c = 'camel',
-        k = 'kebab',
-    }
-
-    return opts[choice]
-end
 
 M.convert = function(choice, word)
     local current_format = get_current_format(word)
-    local expanded_choice = expand_choice(choice)
     local case = {
-        snake = to_snake,
-        camel = to_camel,
-        kebab = to_kebab,
+        s = to_snake,
+        c = to_camel,
+        k = to_kebab,
         default = print, -- probably need to handle this better
     }
 
-    if (case[expanded_choice]) then
-        case[expanded_choice](word, current_format)
+    if (case[choice]) then
+        case[choice](word, current_format)
     else
         case['default']('Your choice was invalid.')
     end
