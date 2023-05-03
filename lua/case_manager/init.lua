@@ -1,7 +1,6 @@
 local M = {}
 
 local to_snake = function(word, current_format)
-    -- let's find a better pattern to convert them than this :D
     if current_format == 'snake' then
         return word
     end
@@ -11,7 +10,7 @@ local to_snake = function(word, current_format)
     end
     if current_format == 'kebab' then
         local formatted_word = string.gsub(word, '%-', '_')
-        vim.cmd('normal! ciw' .. string.lower(formatted_word))
+        vim.cmd('normal! ciW' .. string.lower(formatted_word))
     end
 end
 
@@ -24,14 +23,14 @@ local to_camel = function(word, current_format)
             return string.upper(char)
         end)
         formatted_word = string.gsub(formatted_word, '%-', '')
-        vim.cmd('normal! ciw' .. formatted_word)
+        vim.cmd('normal! ciW' .. formatted_word)
     end
     if current_format == 'snake' then
         local formatted_word = string.gsub(word, '_[a-z]', function(char)
             return string.upper(char)
         end)
         formatted_word = string.gsub(formatted_word, '_', '')
-        vim.cmd('normal! ciw' .. formatted_word)
+        vim.cmd('normal! ciw' .. string.gsub(formatted_word, '[\'\"%$]', '' ))
     end
 end
 
