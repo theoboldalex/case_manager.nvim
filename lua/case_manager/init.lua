@@ -5,7 +5,7 @@ local to_snake = function(word, current_format)
         return word
     end
     if current_format == 'camel' then
-        local formatted_word = string.gsub(word, '(%u)', '_%1' )
+        local formatted_word = string.gsub(word, '(%u)', '_%1')
         vim.cmd('normal! ciw' .. string.lower(formatted_word))
     end
     if current_format == 'kebab' then

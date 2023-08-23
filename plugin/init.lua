@@ -6,4 +6,4 @@ Prompt = function(word)
     end)
 end
 
-vim.cmd([[ command! CaseManager :lua Prompt(vim.call('expand', '<cWORD>')) ]])
+vim.cmd([[ command! CaseManager :lua Prompt(vim.call('expand', '<cWORD>'):gsub("['$]", "")) ]])
